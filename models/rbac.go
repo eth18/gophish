@@ -53,6 +53,7 @@ type Role struct {
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
 	Permissions []Permission `json:"-" gorm:"many2many:role_permissions;"`
+	TenantId    int64        `json:"tenant_id"`
 }
 
 // Permission determines what a particular role can do. Each role may have one
@@ -62,6 +63,7 @@ type Permission struct {
 	Slug        string `json:"slug"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	TenantId    int64  `json:"tenant_id"`
 }
 
 // GetRoleBySlug returns a role that can be assigned to a user.

@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gophish/gophish/auth"
-	ctx "github.com/gophish/gophish/context"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/models"
+	"gophish/auth"
+	ctx "gophish/context"
+	log "gophish/logger"
+	"gophish/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 )

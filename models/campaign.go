@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/webhook"
+	log "gophish/logger"
+	"gophish/webhook"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
 )
@@ -31,6 +31,7 @@ type Campaign struct {
 	SMTPId        int64     `json:"-"`
 	SMTP          SMTP      `json:"smtp"`
 	URL           string    `json:"url"`
+	TenantId      int64     `json:"tenant_id"`
 }
 
 // CampaignResults is a struct representing the results from a campaign
@@ -46,6 +47,7 @@ type CampaignResults struct {
 type CampaignSummaries struct {
 	Total     int64             `json:"total"`
 	Campaigns []CampaignSummary `json:"campaigns"`
+
 }
 
 // CampaignSummary is a struct representing the overview of a single camaign
