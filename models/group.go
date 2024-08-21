@@ -6,9 +6,10 @@ import (
 	"net/mail"
 	"time"
 
-	log "gophish/logger"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
+
+	log "gophish/logger"
 )
 
 // Group contains the fields needed for a user -> group mapping

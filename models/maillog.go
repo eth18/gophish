@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/gophish/gomail"
+	
 	"gophish/config"
 	log "gophish/logger"
 	"gophish/mailer"

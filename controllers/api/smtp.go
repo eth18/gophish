@@ -6,11 +6,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
 )
 
 // SendingProfiles handles requests for the /api/smtp/ endpoint

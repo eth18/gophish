@@ -6,8 +6,9 @@ import (
 	"fmt"
 
 	"github.com/gophish/gomail"
-	"gophish/config"
 	"github.com/jordan-wright/email"
+	
+	"gophish/config"
 	check "gopkg.in/check.v1"
 )
 

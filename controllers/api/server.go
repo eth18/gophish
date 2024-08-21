@@ -4,11 +4,12 @@ import (
 	"net/http"
 	"log"
 
+	"github.com/gorilla/mux"
+
 	mid "gophish/middleware"
 	"gophish/middleware/ratelimit"
 	"gophish/models"
 	"gophish/worker"
-	"github.com/gorilla/mux"
 )
 
 // ServerOption is an option to apply to the API server.

@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
 )
 
 // Campaigns returns a list of campaigns if requested via GET.
