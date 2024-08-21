@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"log"
 
 	mid "gophish/middleware"
 	"gophish/middleware/ratelimit"
