@@ -9,7 +9,6 @@ import (
 	"net/url"
 	"strings"
 	"time"
-
 	"github.com/NYTimes/gziphandler"
 	"gophish/auth"
 	"gophish/config"
