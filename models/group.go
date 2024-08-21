@@ -6,9 +6,10 @@ import (
 	"net/mail"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
+
+	log "gophish/logger"
 )
 
 // Group contains the fields needed for a user -> group mapping
@@ -19,6 +20,7 @@ type Group struct {
 	Name         string    `json:"name"`
 	ModifiedDate time.Time `json:"modified_date"`
 	Targets      []Target  `json:"targets" sql:"-"`
+	TenantId     int64     `json:"tenant_id"`
 }
 
 // GroupSummaries is a struct representing the overview of Groups.
@@ -41,6 +43,7 @@ type GroupSummary struct {
 type GroupTarget struct {
 	GroupId  int64 `json:"-"`
 	TargetId int64 `json:"-"`
+	TenantId int64 `json:"tenant_id"`
 }
 
 // Target contains the fields needed for individual targets specified by the user

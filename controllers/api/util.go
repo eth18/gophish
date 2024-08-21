@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"net/mail"
 
-	ctx "github.com/gophish/gophish/context"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/models"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
+
+	ctx "gophish/context"
+	log "gophish/logger"
+	"gophish/models"
 )
 
 // SendTestEmail sends a test email using the template name

@@ -21,6 +21,7 @@ type Attachment struct {
 	Type        string `json:"type"`
 	Name        string `json:"name"`
 	vanillaFile bool   // Vanilla file has no template variables
+	TenantId    int64  `json:"tenant_id"`
 }
 
 // Validate ensures that the provided attachment uses the supported template variables correctly.

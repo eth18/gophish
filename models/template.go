@@ -5,7 +5,7 @@ import (
 	"net/mail"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
+	log "gophish/logger"
 	"github.com/jinzhu/gorm"
 )
 
@@ -20,6 +20,7 @@ type Template struct {
 	HTML           string       `json:"html" gorm:"column:html"`
 	ModifiedDate   time.Time    `json:"modified_date"`
 	Attachments    []Attachment `json:"attachments"`
+	TenantId       int64        `json:"tenant_id"`
 }
 
 // ErrTemplateNameNotSpecified is thrown when a template name is not specified

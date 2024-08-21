@@ -2,31 +2,32 @@ package api
 
 import (
 	"net/http"
+	"log"
 
-	mid "github.com/gophish/gophish/middleware"
-	"github.com/gophish/gophish/middleware/ratelimit"
-	"github.com/gophish/gophish/models"
-	"github.com/gophish/gophish/worker"
 	"github.com/gorilla/mux"
+
+	mid "gophish/middleware"
+	"gophish/middleware/ratelimit"
+	"gophish/models"
+	"gophish/worker"
 )
 
 // ServerOption is an option to apply to the API server.
 type ServerOption func(*Server)
 
 // Server represents the routes and functionality of the Gophish API.
-// It's not a server in the traditional sense, in that it isn't started and
-// stopped. Rather, it's meant to be used as an http.Handler in the
-// AdminServer.
 type Server struct {
 	handler http.Handler
 	worker  worker.Worker
 	limiter *ratelimit.PostLimiter
 }
 
-// NewServer returns a new instance of the API handler with the provided
-// options applied.
+// NewServer returns a new instance of the API handler with the provided options applied.
 func NewServer(options ...ServerOption) *Server {
-	defaultWorker, _ := worker.New()
+	defaultWorker, err := worker.New()
+	if err != nil {
+		log.Fatalf("Failed to create worker: %v", err)
+	}
 	defaultLimiter := ratelimit.NewPostLimiter()
 	as := &Server{
 		worker:  defaultWorker,
@@ -86,6 +87,8 @@ func (as *Server) registerRoutes() {
 	router.HandleFunc("/webhooks/", mid.Use(as.Webhooks, mid.RequirePermission(models.PermissionModifySystem)))
 	router.HandleFunc("/webhooks/{id:[0-9]+}/validate", mid.Use(as.ValidateWebhook, mid.RequirePermission(models.PermissionModifySystem)))
 	router.HandleFunc("/webhooks/{id:[0-9]+}", mid.Use(as.Webhook, mid.RequirePermission(models.PermissionModifySystem)))
+	router.HandleFunc("/tenants/", as.Tenants)
+	router.HandleFunc("/tenants/{id:[0-9]+}", as.Tenant)
 	as.handler = router
 }
 

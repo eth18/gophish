@@ -6,12 +6,13 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gophish/gophish/auth"
-	ctx "github.com/gophish/gophish/context"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+
+	ctx "gophish/context"
+	log "gophish/logger"
+	"gophish/auth"
+	"gophish/models"
 )
 
 // ErrUsernameTaken is thrown when a user attempts to register a username that is taken.

@@ -11,21 +11,23 @@ import (
 	"time"
 
 	"github.com/NYTimes/gziphandler"
-	"github.com/gophish/gophish/auth"
-	"github.com/gophish/gophish/config"
-	ctx "github.com/gophish/gophish/context"
-	"github.com/gophish/gophish/controllers/api"
-	log "github.com/gophish/gophish/logger"
-	mid "github.com/gophish/gophish/middleware"
-	"github.com/gophish/gophish/middleware/ratelimit"
-	"github.com/gophish/gophish/models"
-	"github.com/gophish/gophish/util"
-	"github.com/gophish/gophish/worker"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/jordan-wright/unindexed"
+	
+	"gophish/auth"
+	"gophish/config"
+	ctx "gophish/context"
+	"gophish/controllers/api"
+	log "gophish/logger"
+	mid "gophish/middleware"
+	"gophish/middleware/ratelimit"
+	"gophish/models"
+	"gophish/util"
+	"gophish/worker"
+	
 )
 
 // AdminServerOption is a functional option that is used to configure the

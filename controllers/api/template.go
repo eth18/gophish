@@ -6,11 +6,12 @@ import (
 	"strconv"
 	"time"
 
-	ctx "github.com/gophish/gophish/context"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+
+	ctx "gophish/context"
+	log "gophish/logger"
+	"gophish/models"
 )
 
 // Templates handles the functionality for the /api/templates endpoint
