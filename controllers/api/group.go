@@ -6,11 +6,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
 )
 
 // Groups returns a list of groups if requested via GET.

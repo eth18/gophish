@@ -12,7 +12,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/jordan-wright/email"
 
-
 	log "gophish/logger"
 	"gophish/models"
 	"gophish/util"
