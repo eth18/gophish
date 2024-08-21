@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
