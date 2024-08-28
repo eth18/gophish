@@ -66,9 +66,10 @@ func (ur *userRequest) Validate(existingUser *models.User) error {
 // Users contains functions to retrieve a list of existing users or create a
 // new user. Users with the ModifySystem permissions can view and create users.
 func (as *Server) Users(w http.ResponseWriter, r *http.Request) {
+	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		us, err := models.GetUsers()
+		us, err := models.GetUsers(tenantID)
 		if err != nil {
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
 			return

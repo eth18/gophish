@@ -13,9 +13,10 @@ import (
 
 // Webhooks returns a list of webhooks, both active and disabled
 func (as *Server) Webhooks(w http.ResponseWriter, r *http.Request) {
+	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		whs, err := models.GetWebhooks()
+		whs, err := models.GetWebhooks(tenantID)
 		if err != nil {
 			log.Error(err)
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)

@@ -17,7 +17,8 @@ import (
 func (as *Server) Templates(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.Method == "GET":
-		ts, err := models.GetTemplates(ctx.Get(r, "user_id").(int64))
+		tenantID := ctx.Get(r, "tenant_id").(string)
+		ts, err := models.GetTemplates(ctx.Get(r, "user_id").(int64), tenantID)
 		if err != nil {
 			log.Error(err)
 		}

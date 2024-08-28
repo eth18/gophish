@@ -22,9 +22,19 @@ var ErrURLNotSpecified = errors.New("URL can't be empty")
 var ErrNameNotSpecified = errors.New("Name can't be empty")
 
 // GetWebhooks returns the webhooks
-func GetWebhooks() ([]Webhook, error) {
+func GetWebhooks(tenantID string) ([]Webhook, error) {
 	whs := []Webhook{}
-	err := db.Find(&whs).Error
+	var query *gorm.DB
+	if tenantID == "" {
+		query = db
+	} else {
+		query = db.Where("tenant_id = ?", tenantID)
+	}
+
+	err := query.Find(&whs).Error
+	if err != nil {
+		log.Error("Error fetching webhooks: ", err)
+	}
 	return whs, err
 }
 

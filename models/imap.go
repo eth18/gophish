@@ -101,13 +101,16 @@ func (im *IMAP) Validate() error {
 }
 
 // GetIMAP returns the IMAP server owned by the given user.
-func GetIMAP(uid int64) ([]IMAP, error) {
+func GetIMAP(uid int64, tenantID string) ([]IMAP, error) {
 	im := []IMAP{}
 	count := 0
-	err := db.Where("user_id=?", uid).Find(&im).Count(&count).Error
-
+	query := db.Where("user_id = ?", uid)
+	if tenantID != "" {
+		query = query.Where("tenant_id = ?", tenantID)
+	}
+	err := query.Find(&im).Count(&count).Error
 	if err != nil {
-		log.Error(err)
+		log.Error("Error fetching IMAP settings:", err)
 		return im, err
 	}
 	return im, nil

@@ -15,9 +15,11 @@ import (
 
 // SendingProfiles handles requests for the /api/smtp/ endpoint
 func (as *Server) SendingProfiles(w http.ResponseWriter, r *http.Request) {
+	tenantID := ctx.Get(r, "tenant_id").(string)
+	userID := ctx.Get(r, "user_id").(int64)
 	switch {
 	case r.Method == "GET":
-		ss, err := models.GetSMTPs(ctx.Get(r, "user_id").(int64))
+		ss, err := models.GetSMTPs(userID, tenantID)
 		if err != nil {
 			log.Error(err)
 		}

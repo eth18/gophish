@@ -5,19 +5,23 @@ import (
 	"net/http"
 	"strconv"
 
-	ctx "github.com/gophish/gophish/context"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+
+	ctx "gophish/context"
+	log "gophish/logger"
+	"gophish/models"
 )
 
 // Campaigns returns a list of campaigns if requested via GET.
 // If requested via POST, APICampaigns creates a new campaign and returns a reference to it.
 func (as *Server) Campaigns(w http.ResponseWriter, r *http.Request) {
+	tenantID := r.URL.Query().Get("tenant_id")
+    userID := ctx.Get(r, "user_id").(int64)
+
 	switch {
 	case r.Method == "GET":
-		cs, err := models.GetCampaigns(ctx.Get(r, "user_id").(int64))
+		cs, err := models.GetCampaigns(userID, tenantID)
 		if err != nil {
 			log.Error(err)
 		}
@@ -47,9 +51,12 @@ func (as *Server) Campaigns(w http.ResponseWriter, r *http.Request) {
 
 // CampaignsSummary returns the summary for the current user's campaigns
 func (as *Server) CampaignsSummary(w http.ResponseWriter, r *http.Request) {
+	tenantID := r.URL.Query().Get("tenant_id")
+    userID := ctx.Get(r, "user_id").(int64)
+
 	switch {
 	case r.Method == "GET":
-		cs, err := models.GetCampaignSummaries(ctx.Get(r, "user_id").(int64))
+		cs, err := models.GetCampaignSummaries(userID, tenantID)
 		if err != nil {
 			log.Error(err)
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)

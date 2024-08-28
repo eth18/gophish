@@ -15,9 +15,10 @@ import (
 
 // Pages handles requests for the /api/pages/ endpoint
 func (as *Server) Pages(w http.ResponseWriter, r *http.Request) {
+	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		ps, err := models.GetPages(ctx.Get(r, "user_id").(int64))
+		ps, err := models.GetPages(ctx.Get(r, "user_id").(int64), tenantID)
 		if err != nil {
 			log.Error(err)
 		}

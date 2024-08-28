@@ -57,16 +57,19 @@ func (t *Template) Validate() error {
 }
 
 // GetTemplates returns the templates owned by the given user.
-func GetTemplates(uid int64) ([]Template, error) {
+func GetTemplates(uid int64, tenantID string) ([]Template, error) {
 	ts := []Template{}
-	err := db.Where("user_id=?", uid).Find(&ts).Error
+	query := db.Where("user_id = ?", uid)
+	if tenantID != "" {
+		query = query.Where("tenant_id = ?", tenantID)
+	}
+	err := query.Find(&ts).Error
 	if err != nil {
 		log.Error(err)
 		return ts, err
 	}
 	for i := range ts {
-		// Get Attachments
-		err = db.Where("template_id=?", ts[i].Id).Find(&ts[i].Attachments).Error
+		err = db.Where("template_id = ?", ts[i].Id).Find(&ts[i].Attachments).Error
 		if err == nil && len(ts[i].Attachments) == 0 {
 			ts[i].Attachments = make([]Attachment, 0)
 		}
@@ -75,7 +78,7 @@ func GetTemplates(uid int64) ([]Template, error) {
 			return ts, err
 		}
 	}
-	return ts, err
+	return ts, nil
 }
 
 // GetTemplate returns the template, if it exists, specified by the given id and user_id.

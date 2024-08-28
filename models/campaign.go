@@ -302,45 +302,52 @@ func getCampaignStats(cid int64) (CampaignStats, error) {
 }
 
 // GetCampaigns returns the campaigns owned by the given user.
-func GetCampaigns(uid int64) ([]Campaign, error) {
-	cs := []Campaign{}
-	err := db.Model(&User{Id: uid}).Related(&cs).Error
-	if err != nil {
-		log.Error(err)
-	}
-	for i := range cs {
-		err = cs[i].getDetails()
-		if err != nil {
-			log.Error(err)
-		}
-	}
-	return cs, err
+func GetCampaigns(uid int64, tenantID string) ([]Campaign, error) {
+    var campaigns []Campaign
+    query := db.Where("user_id = ?", uid)
+    if tenantID != "" {
+        query = query.Where("tenant_id = ?", tenantID)
+    }
+    err := query.Find(&campaigns).Error
+    if err != nil {
+        log.Error("Error fetching campaigns:", err)
+        return nil, err
+    }
+    for i := range campaigns {
+        if err := campaigns[i].getDetails(); err != nil {
+            log.Error("Error getting details for campaign", campaigns[i].Id, ":", err)
+            return nil, err
+        }
+    }
+    return campaigns, nil
 }
 
 // GetCampaignSummaries gets the summary objects for all the campaigns
 // owned by the current user
-func GetCampaignSummaries(uid int64) (CampaignSummaries, error) {
-	overview := CampaignSummaries{}
-	cs := []CampaignSummary{}
-	// Get the basic campaign information
-	query := db.Table("campaigns").Where("user_id = ?", uid)
-	query = query.Select("id, name, created_date, launch_date, send_by_date, completed_date, status")
-	err := query.Scan(&cs).Error
-	if err != nil {
-		log.Error(err)
-		return overview, err
-	}
-	for i := range cs {
-		s, err := getCampaignStats(cs[i].Id)
-		if err != nil {
-			log.Error(err)
-			return overview, err
-		}
-		cs[i].Stats = s
-	}
-	overview.Total = int64(len(cs))
-	overview.Campaigns = cs
-	return overview, nil
+func GetCampaignSummaries(uid int64, tenantID string) (CampaignSummaries, error) {
+    overview := CampaignSummaries{}
+    cs := []CampaignSummary{}
+    query := db.Table("campaigns").Where("user_id = ?", uid)
+    if tenantID != "" {
+        query = query.Where("tenant_id = ?", tenantID)
+    }
+    query = query.Select("id, name, created_date, launch_date, send_by_date, completed_date, status")
+    err := query.Scan(&cs).Error
+    if err != nil {
+        log.Error("Error fetching campaign summaries:", err)
+        return overview, err
+    }
+    for i := range cs {
+        s, err := getCampaignStats(cs[i].Id)
+        if err != nil {
+            log.Error("Error getting stats for campaign", cs[i].Id, ":", err)
+            return overview, err
+        }
+        cs[i].Stats = s
+    }
+    overview.Total = int64(len(cs))
+    overview.Campaigns = cs
+    return overview, nil
 }
 
 // GetCampaignSummary gets the summary object for a campaign specified by the campaign ID

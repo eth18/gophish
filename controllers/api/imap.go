@@ -33,9 +33,11 @@ func (as *Server) IMAPServerValidate(w http.ResponseWriter, r *http.Request) {
 
 // IMAPServer handles requests for the /api/imapserver/ endpoint
 func (as *Server) IMAPServer(w http.ResponseWriter, r *http.Request) {
+	userID := ctx.Get(r, "user_id").(int64)
+	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		ss, err := models.GetIMAP(ctx.Get(r, "user_id").(int64))
+		ss, err := models.GetIMAP(userID, tenantID)
 		if err != nil {
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
 			return

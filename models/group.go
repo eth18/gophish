@@ -106,17 +106,21 @@ func (g *Group) Validate() error {
 }
 
 // GetGroups returns the groups owned by the given user.
-func GetGroups(uid int64) ([]Group, error) {
+func GetGroups(uid int64, tenantID string) ([]Group, error) {
 	gs := []Group{}
-	err := db.Where("user_id=?", uid).Find(&gs).Error
+	query := db.Where("user_id = ?", uid)
+	if tenantID != "" {
+		query = query.Where("tenant_id = ?", tenantID)
+	}
+	err := query.Find(&gs).Error
 	if err != nil {
-		log.Error(err)
+		log.Error("Error fetching groups:", err)
 		return gs, err
 	}
 	for i := range gs {
 		gs[i].Targets, err = GetTargets(gs[i].Id)
 		if err != nil {
-			log.Error(err)
+			log.Error("Error fetching targets for group", gs[i].Id, ":", err)
 		}
 	}
 	return gs, nil
@@ -124,18 +128,22 @@ func GetGroups(uid int64) ([]Group, error) {
 
 // GetGroupSummaries returns the summaries for the groups
 // created by the given uid.
-func GetGroupSummaries(uid int64) (GroupSummaries, error) {
+func GetGroupSummaries(uid int64, tenantID string) (GroupSummaries, error) {
 	gs := GroupSummaries{}
-	query := db.Table("groups").Where("user_id=?", uid)
+	query := db.Table("groups").Where("user_id = ?", uid)
+	if tenantID != "" {
+		query = query.Where("tenant_id = ?", tenantID)
+	}
 	err := query.Select("id, name, modified_date").Scan(&gs.Groups).Error
 	if err != nil {
-		log.Error(err)
+		log.Error("Error fetching group summaries:", err)
 		return gs, err
 	}
 	for i := range gs.Groups {
-		query = db.Table("group_targets").Where("group_id=?", gs.Groups[i].Id)
-		err = query.Count(&gs.Groups[i].NumTargets).Error
+		countQuery := db.Table("group_targets").Where("group_id = ?", gs.Groups[i].Id)
+		err = countQuery.Count(&gs.Groups[i].NumTargets).Error
 		if err != nil {
+			log.Error("Error counting targets for group", gs.Groups[i].Id, ":", err)
 			return gs, err
 		}
 	}

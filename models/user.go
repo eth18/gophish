@@ -34,9 +34,18 @@ func GetUser(id int64) (User, error) {
 }
 
 // GetUsers returns the users registered in Gophish
-func GetUsers() ([]User, error) {
+func GetUsers(tenantID string) ([]User, error) {
 	us := []User{}
-	err := db.Preload("Role").Find(&us).Error
+	var query *gorm.DB
+	if tenantID == "" {
+		query = db.Preload("Role")
+	} else {
+		query = db.Where("tenant_id = ?", tenantID).Preload("Role")
+	}
+	err := query.Find(&us).Error
+	if err != nil {
+		log.Error("Error fetching users: ", err)
+	}
 	return us, err
 }
 

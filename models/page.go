@@ -89,14 +89,18 @@ func (p *Page) Validate() error {
 }
 
 // GetPages returns the pages owned by the given user.
-func GetPages(uid int64) ([]Page, error) {
+func GetPages(uid int64, tenantID string) ([]Page, error) {
 	ps := []Page{}
-	err := db.Where("user_id=?", uid).Find(&ps).Error
+	query := db.Where("user_id = ?", uid)
+	if tenantID != "" {
+		query = query.Where("tenant_id = ?", tenantID)
+	}
+	err := query.Find(&ps).Error
 	if err != nil {
-		log.Error(err)
+		log.Error("Error fetching pages:", err)
 		return ps, err
 	}
-	return ps, err
+	return ps, nil
 }
 
 // GetPage returns the page, if it exists, specified by the given id and user_id.

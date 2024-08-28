@@ -139,17 +139,21 @@ func (s *SMTP) GetDialer() (mailer.Dialer, error) {
 }
 
 // GetSMTPs returns the SMTPs owned by the given user.
-func GetSMTPs(uid int64) ([]SMTP, error) {
+func GetSMTPs(uid int64, tenantID string) ([]SMTP, error) {
 	ss := []SMTP{}
-	err := db.Where("user_id=?", uid).Find(&ss).Error
+	query := db.Where("user_id = ?", uid)
+	if tenantID != "" {
+		query = query.Where("tenant_id = ?", tenantID)
+	}
+	err := query.Find(&ss).Error
 	if err != nil {
-		log.Error(err)
+		log.Error("Error fetching SMTPs:", err)
 		return ss, err
 	}
 	for i := range ss {
-		err = db.Where("smtp_id=?", ss[i].Id).Find(&ss[i].Headers).Error
+		err = db.Where("smtp_id = ?", ss[i].Id).Find(&ss[i].Headers).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
-			log.Error(err)
+			log.Error("Error fetching SMTP headers:", err)
 			return ss, err
 		}
 	}

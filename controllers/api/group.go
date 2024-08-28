@@ -16,9 +16,11 @@ import (
 // Groups returns a list of groups if requested via GET.
 // If requested via POST, APIGroups creates a new group and returns a reference to it.
 func (as *Server) Groups(w http.ResponseWriter, r *http.Request) {
+	userID := ctx.Get(r, "user_id").(int64)
+	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		gs, err := models.GetGroups(ctx.Get(r, "user_id").(int64))
+		gs, err := models.GetGroups(userID, tenantID)
 		if err != nil {
 			JSONResponse(w, models.Response{Success: false, Message: "No groups found"}, http.StatusNotFound)
 			return
@@ -51,9 +53,11 @@ func (as *Server) Groups(w http.ResponseWriter, r *http.Request) {
 
 // GroupsSummary returns a summary of the groups owned by the current user.
 func (as *Server) GroupsSummary(w http.ResponseWriter, r *http.Request) {
+	userID := ctx.Get(r, "user_id").(int64)
+	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		gs, err := models.GetGroupSummaries(ctx.Get(r, "user_id").(int64))
+		gs, err := models.GetGroupSummaries(userID, tenantID)
 		if err != nil {
 			log.Error(err)
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
