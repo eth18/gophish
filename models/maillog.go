@@ -14,9 +14,10 @@ import (
 	"time"
 
 	"github.com/gophish/gomail"
-	"github.com/gophish/gophish/config"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/mailer"
+	
+	"gophish/config"
+	log "gophish/logger"
+	"gophish/mailer"
 )
 
 // MaxSendAttempts set to 8 since we exponentially backoff after each failed send
@@ -40,7 +41,7 @@ type MailLog struct {
 	SendDate    time.Time `json:"send_date"`
 	SendAttempt int       `json:"send_attempt"`
 	Processing  bool      `json:"-"`
-
+    TenantId    int64     `json:"tenant_id"`
 	cachedCampaign *Campaign
 }
 

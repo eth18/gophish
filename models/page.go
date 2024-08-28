@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	log "github.com/gophish/gophish/logger"
+	log "gophish/logger"
 )
 
 // Page contains the fields used for a Page model
@@ -19,6 +19,7 @@ type Page struct {
 	CapturePasswords   bool      `json:"capture_passwords" gorm:"column:capture_passwords"`
 	RedirectURL        string    `json:"redirect_url" gorm:"column:redirect_url"`
 	ModifiedDate       time.Time `json:"modified_date"`
+    TenantId           int64     `json:"tenant_id"`
 }
 
 // ErrPageNameNotSpecified is thrown if the name of the landing page is blank.

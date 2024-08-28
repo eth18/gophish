@@ -9,10 +9,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophish/gophish/config"
-
+	
 	"github.com/gophish/gomail"
 	"github.com/jordan-wright/email"
+
+	"gophish/config"
 	"gopkg.in/check.v1"
 )
 

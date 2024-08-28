@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
+	log "gophish/logger"
 )
 
 // ErrModifyingOnlyAdmin occurs when there is an attempt to modify the only
@@ -23,6 +23,7 @@ type User struct {
 	PasswordChangeRequired bool      `json:"password_change_required"`
 	AccountLocked          bool      `json:"account_locked"`
 	LastLogin              time.Time `json:"last_login"`
+	TenantId               int64     `json:"tenant_id"`
 }
 
 // GetUser returns the user that the given id corresponds to. If no user is found, an

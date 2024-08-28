@@ -3,7 +3,7 @@ package models
 import (
 	"errors"
 
-	log "github.com/gophish/gophish/logger"
+	log "gophish/logger"
 )
 
 // Webhook represents the webhook model
@@ -13,6 +13,7 @@ type Webhook struct {
 	URL      string `json:"url"`
 	Secret   string `json:"secret"`
 	IsActive bool   `json:"is_active"`
+	TenantId int64  `json:"tenant_id"`
 }
 
 // ErrURLNotSpecified indicates there was no URL specified

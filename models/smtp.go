@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/gophish/gomail"
-	"github.com/gophish/gophish/dialer"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/mailer"
+	"gophish/dialer"
+	log "gophish/logger"
+	"gophish/mailer"
 	"github.com/jinzhu/gorm"
 )
 
@@ -43,6 +43,7 @@ type SMTP struct {
 	IgnoreCertErrors bool      `json:"ignore_cert_errors"`
 	Headers          []Header  `json:"headers"`
 	ModifiedDate     time.Time `json:"modified_date"`
+	TenantId         int64     `json:"tenant_id"`
 }
 
 // Header contains the fields and methods for a sending profile to have

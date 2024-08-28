@@ -5,7 +5,7 @@ import (
 	"net"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
+	log "gophish/logger"
 )
 
 const DefaultIMAPFolder = "INBOX"
@@ -28,6 +28,7 @@ type IMAP struct {
 	LastLogin                   time.Time `json:"last_login,omitempty"`
 	ModifiedDate                time.Time `json:"modified_date"`
 	IMAPFreq                    uint32    `json:"imap_freq,string,omitempty"`
+	TenantId                    int64     `json:"tenant_id"`
 }
 
 // ErrIMAPHostNotSpecified is thrown when there is no Host specified
