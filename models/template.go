@@ -58,19 +58,16 @@ func (t *Template) Validate() error {
 }
 
 // GetTemplates returns the templates owned by the given user.
-func GetTemplates(uid int64, tenantID string) ([]Template, error) {
+func GetTemplates(uid int64) ([]Template, error) {
 	ts := []Template{}
-	query := db.Where("user_id = ?", uid)
-	if tenantID != "" {
-		query = query.Where("tenant_id = ?", tenantID)
-	}
-	err := query.Find(&ts).Error
+	err := db.Where("user_id=?", uid).Find(&ts).Error
 	if err != nil {
 		log.Error(err)
 		return ts, err
 	}
 	for i := range ts {
-		err = db.Where("template_id = ?", ts[i].Id).Find(&ts[i].Attachments).Error
+		// Get Attachments
+		err = db.Where("template_id=?", ts[i].Id).Find(&ts[i].Attachments).Error
 		if err == nil && len(ts[i].Attachments) == 0 {
 			ts[i].Attachments = make([]Attachment, 0)
 		}
@@ -79,7 +76,17 @@ func GetTemplates(uid int64, tenantID string) ([]Template, error) {
 			return ts, err
 		}
 	}
-	return ts, nil
+	return ts, err
+}
+
+// GetTemplatesByTenantID retrieves templates for a given tenant ID
+func GetTemplatesByTenantID(tenantID int64) ([]Template, error) {
+    var templates []Template
+    err := db.Where("tenant_id = ?", tenantID).Find(&templates).Error
+    if err != nil {
+        return nil, err
+    }
+    return templates, nil
 }
 
 // GetTemplate returns the template, if it exists, specified by the given id and user_id.

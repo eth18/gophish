@@ -6,20 +6,18 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
 )
 
 // Pages handles requests for the /api/pages/ endpoint
 func (as *Server) Pages(w http.ResponseWriter, r *http.Request) {
-	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		ps, err := models.GetPages(ctx.Get(r, "user_id").(int64), tenantID)
+		ps, err := models.GetPages(ctx.Get(r, "user_id").(int64))
 		if err != nil {
 			log.Error(err)
 		}
@@ -90,4 +88,28 @@ func (as *Server) Page(w http.ResponseWriter, r *http.Request) {
 		}
 		JSONResponse(w, p, http.StatusOK)
 	}
+}
+
+// PagesByTenant handles requests for the /pages/{tenant_id:[0-9]+} endpoint
+func (as *Server) PagesByTenant(w http.ResponseWriter, r *http.Request) {
+    // Extract tenant_id from the URL path
+    vars := mux.Vars(r)
+    tenantID, err := strconv.ParseInt(vars["tenant_id"], 10, 64)
+    if err != nil {
+        JSONResponse(w, models.Response{Success: false, Message: "Invalid tenant ID."}, http.StatusBadRequest)
+        return
+    }
+
+    switch r.Method {
+    case "GET":
+        // Retrieve pages for the given tenant ID
+        pages, err := models.GetPagesByTenantID(tenantID)
+        if err != nil {
+            JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
+            return
+        }
+        JSONResponse(w, pages, http.StatusOK)
+    default:
+        JSONResponse(w, models.Response{Success: false, Message: "Only GET requests are allowed."}, http.StatusMethodNotAllowed)
+    }
 }

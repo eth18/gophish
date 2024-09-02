@@ -5,7 +5,6 @@ import (
 	"net/mail"
 
 	"github.com/gophish/gomail"
-	
 	"gophish/config"
 	log "gophish/logger"
 	"gophish/mailer"

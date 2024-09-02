@@ -17,6 +17,7 @@ import (
 
 	log "gophish/logger"
 	"github.com/jordan-wright/email"
+
 	"gophish/models"
 )
 

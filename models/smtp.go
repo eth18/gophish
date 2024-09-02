@@ -140,25 +140,35 @@ func (s *SMTP) GetDialer() (mailer.Dialer, error) {
 }
 
 // GetSMTPs returns the SMTPs owned by the given user.
-func GetSMTPs(uid int64, tenantID string) ([]SMTP, error) {
+func GetSMTPs(uid int64) ([]SMTP, error) {
 	ss := []SMTP{}
-	query := db.Where("user_id = ?", uid)
-	if tenantID != "" {
-		query = query.Where("tenant_id = ?", tenantID)
-	}
-	err := query.Find(&ss).Error
+	err := db.Where("user_id=?", uid).Find(&ss).Error
 	if err != nil {
-		log.Error("Error fetching SMTPs:", err)
+		log.Error(err)
 		return ss, err
 	}
 	for i := range ss {
-		err = db.Where("smtp_id = ?", ss[i].Id).Find(&ss[i].Headers).Error
+		err = db.Where("smtp_id=?", ss[i].Id).Find(&ss[i].Headers).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
-			log.Error("Error fetching SMTP headers:", err)
+			log.Error(err)
 			return ss, err
 		}
 	}
 	return ss, nil
+}
+
+// GetSMTPsByTenantID retrieves SMTP profiles associated with a specific tenant ID.
+func GetSMTPsByTenantID(tenantID int64) ([]SMTP, error) {
+    var smtps []SMTP
+
+    // Query the database for SMTP profiles based on tenant ID
+    err := db.Where("tenant_id = ?", tenantID).Find(&smtps).Error
+    if err != nil {
+        log.Error(err)
+        return nil, err
+    }
+
+    return smtps, nil
 }
 
 // GetSMTP returns the SMTP, if it exists, specified by the given id and user_id.

@@ -6,13 +6,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
+	"gophish/auth"
 	ctx "gophish/context"
 	log "gophish/logger"
-	"gophish/auth"
 	"gophish/models"
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
 )
 
 // ErrUsernameTaken is thrown when a user attempts to register a username that is taken.
@@ -35,6 +34,7 @@ type userRequest struct {
 	Role                   string `json:"role"`
 	PasswordChangeRequired bool   `json:"password_change_required"`
 	AccountLocked          bool   `json:"account_locked"`
+	TenantId               int64  `json:"tenant_id"`
 }
 
 func (ur *userRequest) Validate(existingUser *models.User) error {
@@ -67,10 +67,9 @@ func (ur *userRequest) Validate(existingUser *models.User) error {
 // Users contains functions to retrieve a list of existing users or create a
 // new user. Users with the ModifySystem permissions can view and create users.
 func (as *Server) Users(w http.ResponseWriter, r *http.Request) {
-	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		us, err := models.GetUsers(tenantID)
+		us, err := models.GetUsers()
 		if err != nil {
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
 			return
@@ -111,6 +110,7 @@ func (as *Server) Users(w http.ResponseWriter, r *http.Request) {
 			Role:                   role,
 			RoleID:                 role.ID,
 			PasswordChangeRequired: ur.PasswordChangeRequired,
+			TenantId:               ur.TenantId,
 		}
 		err = models.PutUser(&user)
 		if err != nil {
@@ -120,6 +120,30 @@ func (as *Server) Users(w http.ResponseWriter, r *http.Request) {
 		JSONResponse(w, user, http.StatusOK)
 		return
 	}
+}
+
+// UsersByTenant handles requests for the /users/{tenant_id:[0-9]+} endpoint
+func (as *Server) UsersByTenant(w http.ResponseWriter, r *http.Request) {
+    // Extract tenant_id from the URL path
+    vars := mux.Vars(r)
+    tenantID, err := strconv.ParseInt(vars["tenant_id"], 10, 64)
+    if err != nil {
+        JSONResponse(w, models.Response{Success: false, Message: "Invalid tenant ID."}, http.StatusBadRequest)
+        return
+    }
+
+    switch r.Method {
+    case "GET":
+        // Retrieve users for the given tenant ID
+        users, err := models.GetUsersByTenantID(tenantID)
+        if err != nil {
+            JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
+            return
+        }
+        JSONResponse(w, users, http.StatusOK)
+    default:
+        JSONResponse(w, models.Response{Success: false, Message: "Only GET requests are allowed."}, http.StatusMethodNotAllowed)
+    }
 }
 
 // User contains functions to retrieve or delete a single user. Users with

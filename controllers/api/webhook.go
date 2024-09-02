@@ -5,19 +5,17 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
-
 	log "gophish/logger"
 	"gophish/models"
 	"gophish/webhook"
+	"github.com/gorilla/mux"
 )
 
 // Webhooks returns a list of webhooks, both active and disabled
 func (as *Server) Webhooks(w http.ResponseWriter, r *http.Request) {
-	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		whs, err := models.GetWebhooks(tenantID)
+		whs, err := models.GetWebhooks()
 		if err != nil {
 			log.Error(err)
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
@@ -39,6 +37,29 @@ func (as *Server) Webhooks(w http.ResponseWriter, r *http.Request) {
 		}
 		JSONResponse(w, wh, http.StatusCreated)
 	}
+}
+
+// WebhooksByTenant handles GET requests for listing webhooks by tenant ID.
+func (as *Server) WebhooksByTenant(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    tenantID, err := strconv.ParseInt(vars["tenant_id"], 10, 64)
+    if err != nil {
+        JSONResponse(w, models.Response{Success: false, Message: "Invalid tenant ID."}, http.StatusBadRequest)
+        return
+    }
+
+    switch r.Method {
+    case "GET":
+        whs, err := models.GetWebhooksByTenantID(tenantID)
+        if err != nil {
+            JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
+            return
+        }
+        JSONResponse(w, whs, http.StatusOK)
+
+    default:
+        JSONResponse(w, models.Response{Success: false, Message: "Method not allowed"}, http.StatusMethodNotAllowed)
+    }
 }
 
 // Webhook returns details of a single webhook specified by "id" parameter

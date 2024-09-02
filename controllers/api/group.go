@@ -6,22 +6,19 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
 )
 
 // Groups returns a list of groups if requested via GET.
 // If requested via POST, APIGroups creates a new group and returns a reference to it.
 func (as *Server) Groups(w http.ResponseWriter, r *http.Request) {
-	userID := ctx.Get(r, "user_id").(int64)
-	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		gs, err := models.GetGroups(userID, tenantID)
+		gs, err := models.GetGroups(ctx.Get(r, "user_id").(int64))
 		if err != nil {
 			JSONResponse(w, models.Response{Success: false, Message: "No groups found"}, http.StatusNotFound)
 			return
@@ -52,13 +49,35 @@ func (as *Server) Groups(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GroupsByTenant handles requests for the /groups/{tenant_id:[0-9]+} endpoint
+func (as *Server) GroupsByTenant(w http.ResponseWriter, r *http.Request) {
+    // Extract tenant_id from the URL path
+    vars := mux.Vars(r)
+    tenantID, err := strconv.ParseInt(vars["tenant_id"], 10, 64)
+    if err != nil {
+        JSONResponse(w, models.Response{Success: false, Message: "Invalid tenant ID."}, http.StatusBadRequest)
+        return
+    }
+
+    switch r.Method {
+    case "GET":
+        // Retrieve groups for the given tenant ID
+        groups, err := models.GetGroupsByTenantID(tenantID)
+        if err != nil {
+            JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
+            return
+        }
+        JSONResponse(w, groups, http.StatusOK)
+    default:
+        JSONResponse(w, models.Response{Success: false, Message: "Only GET requests are allowed."}, http.StatusMethodNotAllowed)
+    }
+}
+
 // GroupsSummary returns a summary of the groups owned by the current user.
 func (as *Server) GroupsSummary(w http.ResponseWriter, r *http.Request) {
-	userID := ctx.Get(r, "user_id").(int64)
-	tenantID := ctx.Get(r, "tenant_id").(string)
 	switch {
 	case r.Method == "GET":
-		gs, err := models.GetGroupSummaries(userID, tenantID)
+		gs, err := models.GetGroupSummaries(ctx.Get(r, "user_id").(int64))
 		if err != nil {
 			log.Error(err)
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)

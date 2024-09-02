@@ -5,11 +5,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
 	"gophish/logger"
+	"github.com/gorilla/mux"
 	"gophish/models"
+	"github.com/jinzhu/gorm"
 )
 
 // Helper function for handling errors

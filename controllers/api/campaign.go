@@ -5,23 +5,19 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
 )
 
 // Campaigns returns a list of campaigns if requested via GET.
 // If requested via POST, APICampaigns creates a new campaign and returns a reference to it.
 func (as *Server) Campaigns(w http.ResponseWriter, r *http.Request) {
-	tenantID := r.URL.Query().Get("tenant_id")
-    userID := ctx.Get(r, "user_id").(int64)
-
 	switch {
 	case r.Method == "GET":
-		cs, err := models.GetCampaigns(userID, tenantID)
+		cs, err := models.GetCampaigns(ctx.Get(r, "user_id").(int64))
 		if err != nil {
 			log.Error(err)
 		}
@@ -49,14 +45,35 @@ func (as *Server) Campaigns(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// CampaignsByTenant handles requests for the /campaigns/{tenant_id:[0-9]+} endpoint
+func (as *Server) CampaignsByTenant(w http.ResponseWriter, r *http.Request) {
+    // Extract tenant_id from the URL path
+    vars := mux.Vars(r)
+    tenantID, err := strconv.ParseInt(vars["tenant_id"], 10, 64)
+    if err != nil {
+        JSONResponse(w, models.Response{Success: false, Message: "Invalid tenant ID."}, http.StatusBadRequest)
+        return
+    }
+
+    switch r.Method {
+    case "GET":
+        // Retrieve campaigns for the given tenant ID
+        campaigns, err := models.GetCampaignsByTenantID(tenantID)
+        if err != nil {
+            JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
+            return
+        }
+        JSONResponse(w, campaigns, http.StatusOK)
+    default:
+        JSONResponse(w, models.Response{Success: false, Message: "Only GET requests are allowed."}, http.StatusMethodNotAllowed)
+    }
+}
+
 // CampaignsSummary returns the summary for the current user's campaigns
 func (as *Server) CampaignsSummary(w http.ResponseWriter, r *http.Request) {
-	tenantID := r.URL.Query().Get("tenant_id")
-    userID := ctx.Get(r, "user_id").(int64)
-
 	switch {
 	case r.Method == "GET":
-		cs, err := models.GetCampaignSummaries(userID, tenantID)
+		cs, err := models.GetCampaignSummaries(ctx.Get(r, "user_id").(int64))
 		if err != nil {
 			log.Error(err)
 			JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)

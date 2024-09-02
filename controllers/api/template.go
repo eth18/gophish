@@ -6,20 +6,18 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
 	ctx "gophish/context"
 	log "gophish/logger"
 	"gophish/models"
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
 )
 
 // Templates handles the functionality for the /api/templates endpoint
 func (as *Server) Templates(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.Method == "GET":
-		tenantID := ctx.Get(r, "tenant_id").(string)
-		ts, err := models.GetTemplates(ctx.Get(r, "user_id").(int64), tenantID)
+		ts, err := models.GetTemplates(ctx.Get(r, "user_id").(int64))
 		if err != nil {
 			log.Error(err)
 		}
@@ -96,4 +94,29 @@ func (as *Server) Template(w http.ResponseWriter, r *http.Request) {
 		}
 		JSONResponse(w, t, http.StatusOK)
 	}
+}
+
+// TemplatesByTenant handles requests for the /api/templates/{tenant_id} endpoint
+func (as *Server) TemplatesByTenant(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    tenantIDStr := vars["tenant_id"]
+    tenantID, err := strconv.ParseInt(tenantIDStr, 10, 64)
+    if err != nil {
+        JSONResponse(w, models.Response{Success: false, Message: "Invalid tenant ID."}, http.StatusBadRequest)
+        return
+    }
+
+    switch r.Method {
+    case "GET":
+        // Retrieve templates for the given tenant ID
+        templates, err := models.GetTemplatesByTenantID(tenantID)
+        if err != nil {
+            JSONResponse(w, models.Response{Success: false, Message: err.Error()}, http.StatusInternalServerError)
+            return
+        }
+        JSONResponse(w, templates, http.StatusOK)
+
+    default:
+        JSONResponse(w, models.Response{Success: false, Message: "Only GET requests are allowed."}, http.StatusMethodNotAllowed)
+    }
 }

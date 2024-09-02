@@ -6,10 +6,9 @@ import (
 	"net/mail"
 	"time"
 
+	log "gophish/logger"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
-
-	log "gophish/logger"
 )
 
 // Group contains the fields needed for a user -> group mapping
@@ -109,44 +108,50 @@ func (g *Group) Validate() error {
 }
 
 // GetGroups returns the groups owned by the given user.
-func GetGroups(uid int64, tenantID string) ([]Group, error) {
+func GetGroups(uid int64) ([]Group, error) {
 	gs := []Group{}
-	query := db.Where("user_id = ?", uid)
-	if tenantID != "" {
-		query = query.Where("tenant_id = ?", tenantID)
-	}
-	err := query.Find(&gs).Error
+	err := db.Where("user_id=?", uid).Find(&gs).Error
 	if err != nil {
-		log.Error("Error fetching groups:", err)
+		log.Error(err)
 		return gs, err
 	}
 	for i := range gs {
 		gs[i].Targets, err = GetTargets(gs[i].Id)
 		if err != nil {
-			log.Error("Error fetching targets for group", gs[i].Id, ":", err)
+			log.Error(err)
 		}
 	}
 	return gs, nil
 }
 
+// GetGroupsByTenantID retrieves groups associated with a specific tenant ID.
+func GetGroupsByTenantID(tenantID int64) ([]Group, error) {
+    var groups []Group
+
+    // Query the database for groups based on tenant ID
+    err := db.Where("tenant_id = ?", tenantID).Find(&groups).Error
+    if err != nil {
+        log.Error(err)
+        return nil, err
+    }
+
+    return groups, nil
+}
+
 // GetGroupSummaries returns the summaries for the groups
 // created by the given uid.
-func GetGroupSummaries(uid int64, tenantID string) (GroupSummaries, error) {
+func GetGroupSummaries(uid int64) (GroupSummaries, error) {
 	gs := GroupSummaries{}
-	query := db.Table("groups").Where("user_id = ?", uid)
-	if tenantID != "" {
-		query = query.Where("tenant_id = ?", tenantID)
-	}
+	query := db.Table("groups").Where("user_id=?", uid)
 	err := query.Select("id, name, modified_date").Scan(&gs.Groups).Error
 	if err != nil {
-		log.Error("Error fetching group summaries:", err)
+		log.Error(err)
 		return gs, err
 	}
 	for i := range gs.Groups {
-		countQuery := db.Table("group_targets").Where("group_id = ?", gs.Groups[i].Id)
-		err = countQuery.Count(&gs.Groups[i].NumTargets).Error
+		query = db.Table("group_targets").Where("group_id=?", gs.Groups[i].Id)
+		err = query.Count(&gs.Groups[i].NumTargets).Error
 		if err != nil {
-			log.Error("Error counting targets for group", gs.Groups[i].Id, ":", err)
 			return gs, err
 		}
 	}
