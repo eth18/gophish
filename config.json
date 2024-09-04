@@ -13,11 +13,11 @@
 		"key_path": "example.key"
 	},
 	"db_name": "mysql",
-	"db_path": "root:@tcp(127.0.0.1:3306)/gophish?parseTime=true",
+	"db_path": "gophish_user:gophish_password@tcp(mysql:3306)/gophish?parseTime=true",
 	"migrations_prefix": "db/db_",
 	"contact_address": "",
 	"logging": {
-	  "filename": "",
-	  "level": ""
+		"filename": "",
+		"level": ""
 	}
 }
