@@ -1,1 +1,1 @@
-FROM omar8345/gophish:latest
+FROM gophish/gophish:latest
