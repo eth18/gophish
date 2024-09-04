@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   gophish:
-    image: gophish/gophish
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: gophish
     ports:
       - "3333:3333"
@@ -21,7 +23,7 @@ services:
       - mysql
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.3
     container_name: mysql
     ports:
       - "3306:3306"
