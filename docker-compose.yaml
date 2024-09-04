@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  gophish:
+    image: omar8345/gophish
+    container_name: gophish
+    ports:
+      - "3333:3333"
+      - "80:80"
+      - "8080:8080"
+      - "8443:8443"
+    volumes:
+      - gophish_data:/gophish/data
+
+volumes:
+  gophish_data:
