@@ -25,6 +25,7 @@ services:
   mysql:
     image: mysql:8.3
     container_name: mysql
+    command: mysqld --sql_mode="ALLOW_INVALID_DATES,NO_ZERO_DATE"
     ports:
       - "3306:3306"
     environment:
@@ -32,6 +33,7 @@ services:
       - MYSQL_DATABASE=gophish
       - MYSQL_USER=gophish_user
       - MYSQL_PASSWORD=gophish_password
+      - MYSQL_ALLOW_ZERO_DATE=true
     volumes:
       - mysql_data:/var/lib/mysql
 
