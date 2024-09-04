@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   gophish:
-    image: omar8345/gophish
+    image: gophish/gophish
     container_name: gophish
     ports:
       - "3333:3333"
