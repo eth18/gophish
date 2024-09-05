@@ -25,6 +25,7 @@ services:
       - MYSQL_USER=gophish_user
       - MYSQL_PASSWORD=gophish_password
       - MYSQL_ALLOW_ZERO_DATE=true
+      - MYSQL_TCP_PORT=3306    
     networks:
       - default
     volumes:

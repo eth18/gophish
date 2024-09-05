@@ -1,0 +1,1002 @@
+{
+	"info": {
+		"_postman_id": "3f1a9bc3-4c32-4581-b645-01228841bd5c",
+		"name": "Gophish Api Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37756934"
+	},
+	"item": [
+		{
+			"name": "Save Tenant1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"guid\": \"12324\", \"tenant_name\": \"New-Tenant-1\", \"tenant_identifier\": \"New-Id1\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/tenants?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"tenants"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Tenant2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"guid\": \"22324\", \"tenant_name\": \"New-Tenant-2\", \"tenant_identifier\": \"New-Id2\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/tenants?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"tenants"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tenants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/tenants?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"tenants"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify Tenant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\": 2, \"guid\": \"32324\", \"tenant_name\": \"New-Tenant-2\", \"tenant_identifier\": \"New-Id2\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/tenants/2?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"tenants",
+						"2"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/tenants/2?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"tenants",
+						"2"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Jack\", \r\n    \"password\": \"thisisamazing\", \r\n    \"role\": \"user\", \r\n    \"password_change_required\": true, \r\n    \"account_locked\": false, \r\n    \"tenant_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/users?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/users?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users By TenantID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/users/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Page1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Page1\",\r\n    \"html\": \"page1\",\r\n    \"capture_credentials\": false,\r\n    \"capture_passwords\": false,\r\n    \"redirect_url\": \"\",\r\n    \"tenant_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/pages?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"pages"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Page2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Page2\",\r\n    \"html\": \"page2\",\r\n    \"capture_credentials\": false,\r\n    \"capture_passwords\": false,\r\n    \"redirect_url\": \"\",\r\n    \"tenant_id\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/pages?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"pages"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/pages?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"pages"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pages By Tenant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/pages/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"pages",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Group1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Group1\",\r\n    \"targets\": [\r\n        {\r\n            \"first_name\": \"William\",\r\n            \"last_name\": \"Jack\",\r\n            \"email\": \"xx@gmail.com\",\r\n            \"position\": \"admin\"\r\n        }\r\n    ],\r\n    \"tenant_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/groups?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"groups"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Group2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Group2\",\r\n    \"targets\": [\r\n        {\r\n            \"first_name\": \"Stephen\",\r\n            \"last_name\": \"Jack\",\r\n            \"email\": \"xx@gmail.com\",\r\n            \"position\": \"admin\"\r\n        }\r\n    ],\r\n    \"tenant_id\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/groups?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"groups"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Groups",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/groups?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"groups"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group By Tenant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/groups/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"groups",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Template1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"attachments\": [],\r\n    \"name\": \"Jack\",\r\n    \"subject\": \"template1\",\r\n    \"envelope_sender\": \"Jack@outlook.com\",\r\n    \"html\": \"template1\",\r\n    \"text\": \"template1\",\r\n    \"tenant_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/templates?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"templates"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Template2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"attachments\": [],\r\n    \"name\": \"William\",\r\n    \"subject\": \"template2\",\r\n    \"envelope_sender\": \"William@outlook.com\",\r\n    \"html\": \"template2\",\r\n    \"text\": \"template2\",\r\n    \"tenant_id\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/templates?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"templates"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Templates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/templates?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"templates"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Templates By Tenant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/templates/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"templates",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Smtp1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"headers\": [\r\n        {\r\n            \"key\": \"Key1\",\r\n            \"value\": \"Value1\"\r\n        }\r\n    ],\r\n    \"name\": \"Profile1\",\r\n    \"interface_type\": \"SMTP\",\r\n    \"from_address\": \"william@outlook.com\",\r\n    \"host\": \"stmp.example1\",\r\n    \"username\": \"user1\",\r\n    \"password\": \"thisisamazing\",\r\n    \"ignore_cert_errors\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/smtp?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"smtp"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Smtp2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"headers\": [\r\n        {\r\n            \"key\": \"Key1\",\r\n            \"value\": \"Value1\"\r\n        }\r\n    ],\r\n    \"name\": \"Profile1\",\r\n    \"interface_type\": \"SMTP\",\r\n    \"from_address\": \"william@outlook.com\",\r\n    \"host\": \"stmp.example1\",\r\n    \"username\": \"user1\",\r\n    \"password\": \"thisisamazing\",\r\n    \"ignore_cert_errors\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/smtp?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"smtp"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Smtps",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/smtp?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"smtp"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Smtps By Tenant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/smtp/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"smtp",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Campaign1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Campaign1\",\r\n    \"template\": {\r\n        \"name\": \"Jack\"\r\n    },\r\n    \"url\": \"\",\r\n    \"page\": {\r\n        \"name\": \"page1\"\r\n    },\r\n    \"smtp\": {\r\n        \"name\": \"Profile 1\"\r\n    },\r\n    \"launch_date\": \"2024-09-01T09:10:00+00:00\",\r\n    \"send_by_date\": \"2024-09-09T23:00:00+00:00\",\r\n    \"groups\": [\r\n        {\r\n            \"name\": \"Group1\"\r\n        }\r\n    ],\r\n    \"tenant_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/campaigns?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"campaigns"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Campaign2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Campaign2\",\r\n    \"template\": {\r\n        \"name\": \"Jack\"\r\n    },\r\n    \"url\": \"\",\r\n    \"page\": {\r\n        \"name\": \"page1\"\r\n    },\r\n    \"smtp\": {\r\n        \"name\": \"Profile 1\"\r\n    },\r\n    \"launch_date\": \"2024-09-01T09:10:00+00:00\",\r\n    \"send_by_date\": \"2024-09-09T23:00:00+00:00\",\r\n    \"groups\": [\r\n        {\r\n            \"name\": \"Group1\"\r\n        }\r\n    ],\r\n    \"tenant_id\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/campaigns?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"campaigns"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Campaigns",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/campaigns?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"campaigns"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Campaigns By Tenant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/campaigns/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"campaigns",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Webhook1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Webhook1\",\r\n    \"url\": \"https://example.com/webhook1\",\r\n    \"secret\": \"secret1\",\r\n    \"is_active\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/webhooks?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"webhooks"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Webhook2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Webhook2\",\r\n    \"url\": \"https://example.com/webhook2\",\r\n    \"secret\": \"secret2\",\r\n    \"is_active\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3333/api/webhooks?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"webhooks"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Webhooks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/webhooks?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"webhooks"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Webhooks by Tenant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3333/api/webhooks/tenant/1?api_key=d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"webhooks",
+						"tenant",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "d42ceb1d38b7f95ed4fabbb357b054c8c1f4cc42849c3f2a64600399e5928d3c"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
