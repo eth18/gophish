@@ -4,27 +4,18 @@ services:
   gophish:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: gophish
+    container_name: gophish-pros      
     ports:
-      - "3333:3333"
-      - "80:80"
-      - "8080:8080"
-      - "8443:8443"
-    volumes:
-      - gophish_data:/gophish/data
-    environment:
-      - DATABASE_TYPE=mysql
-      - DATABASE_HOST=mysql:3306
-      - DATABASE_NAME=gophish
-      - DATABASE_USER=gophish_user
-      - DATABASE_PASSWORD=gophish_password
+      - "3333:3333"      
+      - "8080:8080"      
     depends_on:
       - mysql
+    networks:
+      - default
 
   mysql:
     image: mysql:8.3
-    container_name: mysql
+    container_name: gophish-db
     command: mysqld --sql_mode="ALLOW_INVALID_DATES,NO_ZERO_DATE"
     ports:
       - "3306:3306"
@@ -34,9 +25,10 @@ services:
       - MYSQL_USER=gophish_user
       - MYSQL_PASSWORD=gophish_password
       - MYSQL_ALLOW_ZERO_DATE=true
+    networks:
+      - default
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql      
 
-volumes:
-  gophish_data:
+volumes:  
   mysql_data:
